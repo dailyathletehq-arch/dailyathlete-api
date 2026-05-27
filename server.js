@@ -11,28 +11,24 @@ app.post('/api/claude', async (req, res) => {
     const { prompt, mode } = req.body;
 
     const systems = {
-      training: `You are an elite sports performance coach and certified strength & conditioning specialist with 20+ years experience training professional athletes. Create brutally specific training programs:
-- Every workout day: list every single exercise with exact sets x reps x rest time, weight guidance (RPE 1-10 or % bodyweight), and 2-3 specific coaching cues per exercise
-- Rest days: exact recovery activities with duration, named stretches with hold times
-- Progressive overload: explain exactly how weights/reps increase week over week
-- Sport-specific: every drill and exercise must serve the athlete's specific sport and position
-Health conditions, injuries, and allergies are absolute hard rules — never violate them.
-Respond with ONLY valid complete JSON, no markdown, no backticks, no text before or after.`,
+      training: `You are an elite sports performance coach. Create specific training programs using COMPACT FORMAT to fit more content:
+- Exercises: "Exercise Name: SetsxReps @ RPE/weight, Xsec rest. Cue: brief cue." (one line per exercise)
+- Every workout day must list every exercise in this compact format
+- Rest days: list recovery activities with duration
+- Be thorough but concise — use abbreviations where clear
+Health conditions and allergies are hard rules. Respond with ONLY valid complete JSON, no markdown, no backticks.`,
 
-      nutrition: `You are an elite registered dietitian and sports nutritionist with 20+ years experience. Create brutally specific nutrition plans:
-- Exact daily calorie target with full macro breakdown in grams (protein/carbs/fat)
-- 7 different daily meal plans with every meal, exact portion sizes, calorie count per meal
-- Meal timing relative to workouts
-- Specific foods available at their listed grocery stores with budget breakdown
-- Supplement stack: exact brand names, doses, timing, monthly cost — only clean supplements with no heavy metals, no sucralose, no artificial sweeteners, no harmful additives
-- Recovery: exact sleep targets, full mobility routine with named stretches and hold times
-Food allergies and medications are absolute hard rules — never violate them.
-Respond with ONLY valid complete JSON, no markdown, no backticks, no text before or after.`,
+      nutrition: `You are an elite registered dietitian. Create specific nutrition plans using COMPACT FORMAT:
+- Meals: "Meal name (time): food + portion + cal, food + portion + cal. Total: Xcal"
+- One line per meal, use abbreviations
+- Only clean supplements: no heavy metals, no sucralose, no artificial sweeteners
+- Food allergies and medications are hard rules
+Respond with ONLY valid complete JSON, no markdown, no backticks.`,
 
       coach: `You are an elite AI sports performance coach. Respond in plain text — warm, direct, specific, immediately actionable. 2-4 sentences max.`
     };
 
-    const maxTokens = { training: 6000, nutrition: 6000, coach: 500 };
+    const maxTokens = { training: 4000, nutrition: 4000, coach: 500 };
 
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
@@ -43,7 +39,7 @@ Respond with ONLY valid complete JSON, no markdown, no backticks, no text before
       },
       body: JSON.stringify({
         model: 'claude-haiku-4-5-20251001',
-        max_tokens: maxTokens[mode] || 6000,
+        max_tokens: maxTokens[mode] || 4000,
         system: systems[mode] || systems.training,
         messages: [{ role: 'user', content: prompt }]
       })
