@@ -159,7 +159,7 @@ app.post('/api/claude', async (req, res) => {
     const { prompt, mode } = req.body;
     const systems = {
       training: `You are an elite sports performance coach. Create specific training programs — exact exercises, sets, reps, rest periods, weight guidance (RPE), coaching cues. Health conditions are hard rules. Respond with ONLY valid complete JSON, no markdown, no backticks.`,
-      nutrition: `You are an elite registered dietitian. Give specific nutrition plans — exact calories, macros in grams, meal portions, supplement doses. Only clean supplements: no heavy metals, no sucralose, no artificial sweeteners. Food allergies and medications are absolute hard rules. Respond with ONLY valid complete JSON, no markdown, no backticks.`,
+      nutrition: `You are an elite registered dietitian. Give specific nutrition plans. Food allergies and medications are absolute hard rules. Only clean supplements: no heavy metals, no sucralose, no artificial sweeteners. CRITICAL: Respond with ONLY valid complete JSON using EXACTLY the field names specified in the prompt — diet, dailyMeals, supplements, recovery. No other field names. No markdown. No backticks.`,
       coach: `You are an elite AI sports performance coach. Respond in plain text — warm, direct, specific, immediately actionable. 2-4 sentences max.`
     };
     const maxTokens = { training: 4000, nutrition: 4000, coach: 500 };
