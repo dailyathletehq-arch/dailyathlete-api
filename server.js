@@ -62,7 +62,7 @@ ${nutrition ? `
 <tr><td style="background:#0F1628;padding:32px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.08);">
 <div style="font-size:18px;font-weight:800;color:#FFFFFF;margin-bottom:8px;">🤖 Want daily coaching?</div>
 <div style="font-size:14px;color:#9BA8BF;line-height:1.6;margin-bottom:20px;">Upgrade to Daily Coach for real-time AI coaching, daily meal plans, and weekly check-ins.</div>
-<a href="https://dailyathlete.app/dashboard.html" style="display:inline-block;background:#0057FF;color:#FFFFFF;font-size:14px;font-weight:700;padding:14px 32px;border-radius:12px;text-decoration:none;">Get Daily Coach — $4.99/mo</a>
+<a href="https://dailyathlete.app/dashboard.html" style="display:inline-block;background:#0057FF;color:#FFFFFF;font-size:14px;font-weight:700;padding:14px 32px;border-radius:12px;text-decoration:none;">Try Daily Coach Free →</a>
 </td></tr>
 <tr><td style="background:#0A0F1E;padding:24px 32px;text-align:center;border-radius:0 0 16px 16px;">
 <div style="font-size:12px;color:#6B7A99;">© 2026 DailyAthlete · <a href="https://dailyathlete.app/privacy-policy.html" style="color:#6B7A99;">Privacy</a> · <a href="https://dailyathlete.app/contact.html" style="color:#6B7A99;">Contact</a></div>
@@ -79,7 +79,7 @@ app.post('/api/send-email', async (req, res) => {
     const r = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${process.env.RESEND_API_KEY}` },
-      body: JSON.stringify({ from: 'DailyAthlete <coach@dailyathlete.app>', to: email, subject: `Your Program: ${plan.programTitle}`, html })
+      body: JSON.stringify({ from: 'DailyAthlete <onboarding@resend.dev>', to: email, subject: `Your Program: ${plan.programTitle}`, html })
     });
     const d = await r.json();
     if (d.error) return res.status(500).json({ error: d.error });
