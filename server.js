@@ -79,7 +79,7 @@ app.post('/api/send-email', async (req, res) => {
     const r = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${process.env.RESEND_API_KEY}` },
-      body: JSON.stringify({ from: 'DailyAthlete <onboarding@resend.dev>', to: email, subject: `Your Program: ${plan.programTitle}`, html })
+      body: JSON.stringify({ from: 'DailyAthlete <coach@dailyathlete.app>', to: email, subject: `Your Program: ${plan.programTitle}`, html })
     });
     const d = await r.json();
     if (d.error) return res.status(500).json({ error: d.error });
