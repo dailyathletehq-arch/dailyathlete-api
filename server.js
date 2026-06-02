@@ -10,67 +10,116 @@ app.get('/ping', (req, res) => res.send('ok'));
 function buildEmailHTML(plan, nutrition) {
   const days = plan.days || [];
   const meals = nutrition?.dailyMeals || [];
+
   const dayRows = days.map(d => `
     <tr>
-      <td style="padding:12px 16px;border-bottom:1px solid #1A2540;vertical-align:top;width:120px;">
-        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:#0057FF;">${d.day}</div>
-        <div style="font-size:12px;color:#9BA8BF;margin-top:4px;">${d.focus}</div>
+      <td style="padding:14px 18px;border-bottom:1px solid #1A2540;vertical-align:top;width:110px;background:#0F1628;">
+        <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:#0057FF;margin-bottom:4px;">${d.day}</div>
+        <div style="font-size:11px;color:#6B7A99;">${d.focus}</div>
       </td>
-      <td style="padding:12px 16px;border-bottom:1px solid #1A2540;font-size:13px;color:#9BA8BF;line-height:1.7;">${d.details}</td>
+      <td style="padding:14px 18px;border-bottom:1px solid #1A2540;font-size:13px;color:#9BA8BF;line-height:1.75;background:#111827;">${d.details}</td>
     </tr>`).join('');
+
   const mealRows = meals.map(d => `
     <tr>
-      <td style="padding:12px 16px;border-bottom:1px solid #1A2540;vertical-align:top;width:120px;">
-        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:#4CAF82;">${d.day}</div>
-        <div style="font-size:12px;color:#9BA8BF;margin-top:4px;">${d.calories||''} cal</div>
+      <td style="padding:14px 18px;border-bottom:1px solid #1A2540;vertical-align:top;width:110px;background:#0F1628;">
+        <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:#4CAF82;margin-bottom:4px;">${d.day}</div>
+        <div style="font-size:11px;color:#6B7A99;">${d.calories||''} cal</div>
       </td>
-      <td style="padding:12px 16px;border-bottom:1px solid #1A2540;font-size:13px;color:#9BA8BF;line-height:1.7;">${d.meals}</td>
+      <td style="padding:14px 18px;border-bottom:1px solid #1A2540;font-size:13px;color:#9BA8BF;line-height:1.75;background:#111827;">${d.meals}</td>
     </tr>`).join('');
-  return `<!DOCTYPE html><html><head><meta charset="UTF-8"/></head>
-<body style="margin:0;padding:0;background:#0A0F1E;font-family:Arial,sans-serif;">
-<table width="100%" cellpadding="0" cellspacing="0" style="background:#0A0F1E;padding:40px 20px;">
-<tr><td align="center"><table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;">
-<tr><td style="background:#0F1628;border-radius:16px 16px 0 0;padding:32px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.08);">
-<span style="font-size:22px;font-weight:800;color:#FFFFFF;">Daily<span style="color:#0057FF;">Athlete</span></span>
-<div style="margin-top:6px;font-size:11px;color:#6B7A99;letter-spacing:2px;text-transform:uppercase;">AI-Powered Performance Coach</div>
+
+  return `<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Your DailyAthlete Program</title>
+</head>
+<body style="margin:0;padding:0;background:#0A0F1E;font-family:Arial,Helvetica,sans-serif;-webkit-font-smoothing:antialiased;">
+<table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#0A0F1E;padding:40px 16px;">
+<tr><td align="center">
+<table width="600" cellpadding="0" cellspacing="0" border="0" style="max-width:600px;width:100%;border-radius:16px;overflow:hidden;border:1px solid #1A2540;">
+
+  <!-- HEADER -->
+  <tr><td style="background:#0F1628;padding:28px 32px;text-align:center;border-bottom:1px solid #1A2540;">
+    <table cellpadding="0" cellspacing="0" border="0" align="center">
+      <tr>
+        <td style="background:#0057FF;border-radius:10px;width:40px;height:40px;text-align:center;vertical-align:middle;">
+          <span style="color:#FFFFFF;font-size:20px;font-weight:800;line-height:40px;">D</span>
+        </td>
+        <td style="padding-left:12px;vertical-align:middle;">
+          <span style="font-size:22px;font-weight:800;color:#FFFFFF;letter-spacing:-0.5px;">Daily</span><span style="font-size:22px;font-weight:800;color:#0057FF;letter-spacing:-0.5px;">Athlete</span>
+        </td>
+      </tr>
+    </table>
+    <div style="margin-top:8px;font-size:11px;color:#6B7A99;letter-spacing:3px;text-transform:uppercase;">AI-Powered Performance Coach</div>
+  </td></tr>
+
+  <!-- PROGRAM TITLE BANNER -->
+  <tr><td style="background:linear-gradient(135deg,#003DB8,#0057FF);padding:32px;text-align:center;border-bottom:1px solid #1A2540;">
+    <div style="display:inline-block;background:rgba(255,255,255,0.15);color:#FFFFFF;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;padding:5px 16px;border-radius:50px;margin-bottom:14px;">✦ Your Personalized Program</div>
+    <div style="font-size:26px;font-weight:800;color:#FFFFFF;letter-spacing:-0.5px;margin-bottom:12px;line-height:1.2;">${plan.programTitle}</div>
+    <div style="font-size:14px;color:rgba(255,255,255,0.75);line-height:1.75;max-width:480px;margin:0 auto;">${plan.summary}</div>
+  </td></tr>
+
+  <!-- WEEKLY OVERVIEW -->
+  <tr><td style="background:#0F1628;padding:28px 32px;border-bottom:1px solid #1A2540;">
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:3px;color:#0057FF;margin-bottom:14px;">📋 &nbsp;Weekly Structure & Progression</div>
+    <div style="font-size:14px;color:#9BA8BF;line-height:1.85;">${plan.weeklyOverview}</div>
+  </td></tr>
+
+  <!-- TRAINING SCHEDULE -->
+  <tr><td style="background:#111827;padding:28px 32px;border-bottom:1px solid #1A2540;">
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:3px;color:#0057FF;margin-bottom:16px;">📅 &nbsp;7-Day Training Schedule</div>
+    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="border:1px solid #1A2540;border-radius:12px;overflow:hidden;">
+      ${dayRows}
+    </table>
+  </td></tr>
+
+  ${nutrition ? `
+  <!-- NUTRITION -->
+  <tr><td style="background:#0F1628;padding:28px 32px;border-bottom:1px solid #1A2540;">
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:3px;color:#0057FF;margin-bottom:14px;">🍽️ &nbsp;Nutrition Plan & Targets</div>
+    <div style="font-size:14px;color:#9BA8BF;line-height:1.85;margin-bottom:24px;">${nutrition.diet}</div>
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:3px;color:#4CAF82;margin-bottom:16px;">🥗 &nbsp;Daily Meals</div>
+    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="border:1px solid #1A2540;border-radius:12px;overflow:hidden;">
+      ${mealRows}
+    </table>
+  </td></tr>
+  <tr><td style="background:#111827;padding:28px 32px;border-bottom:1px solid #1A2540;">
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:3px;color:#0057FF;margin-bottom:14px;">💊 &nbsp;Supplement Stack</div>
+    <div style="font-size:14px;color:#9BA8BF;line-height:1.85;margin-bottom:24px;">${nutrition.supplements}</div>
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:3px;color:#0057FF;margin-bottom:14px;">😴 &nbsp;Recovery Protocol</div>
+    <div style="font-size:14px;color:#9BA8BF;line-height:1.85;">${nutrition.recovery}</div>
+  </td></tr>` : ''}
+
+  <!-- UPGRADE CTA -->
+  <tr><td style="background:linear-gradient(135deg,#0A1A3E,#0F1628);padding:36px 32px;text-align:center;border-bottom:1px solid #1A2540;">
+    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:3px;color:#0057FF;margin-bottom:12px;">🤖 &nbsp;Daily Coach</div>
+    <div style="font-size:20px;font-weight:800;color:#FFFFFF;margin-bottom:10px;letter-spacing:-0.5px;">Want your coach to adapt this plan daily?</div>
+    <div style="font-size:14px;color:#9BA8BF;line-height:1.7;margin-bottom:24px;max-width:420px;margin-left:auto;margin-right:auto;">Get a real-time AI coach that adjusts your workouts, meals, and recovery every single day — based on how you're actually feeling and performing.</div>
+    <a href="https://dailyathlete.app/dashboard.html?email=${encodeURIComponent(email)}" style="display:inline-block;background:#0057FF;color:#FFFFFF;font-size:14px;font-weight:700;padding:15px 36px;border-radius:12px;text-decoration:none;letter-spacing:0.3px;">Try Daily Coach Free →</a>
+  </td></tr>
+
+  <!-- FOOTER -->
+  <tr><td style="background:#0A0F1E;padding:24px 32px;text-align:center;">
+    <div style="font-size:12px;color:#6B7A99;margin-bottom:8px;">
+      <a href="https://dailyathlete.app/privacy-policy.html" style="color:#6B7A99;text-decoration:none;">Privacy Policy</a>
+      &nbsp;·&nbsp;
+      <a href="https://dailyathlete.app/terms-and-conditions.html" style="color:#6B7A99;text-decoration:none;">Terms</a>
+      &nbsp;·&nbsp;
+      <a href="https://dailyathlete.app/contact.html" style="color:#6B7A99;text-decoration:none;">Contact</a>
+    </div>
+    <div style="font-size:12px;color:#3A4A6A;">© 2026 DailyAthlete. All rights reserved.</div>
+    <div style="font-size:11px;color:#2A3A5A;margin-top:8px;line-height:1.6;">DailyAthlete provides general fitness and nutrition information for educational purposes only. Always consult your physician before starting any exercise or nutrition program.</div>
+  </td></tr>
+
+</table>
 </td></tr>
-<tr><td style="background:linear-gradient(135deg,rgba(0,61,184,0.5),rgba(0,87,255,0.25));padding:32px;text-align:center;border-bottom:1px solid rgba(0,87,255,0.3);">
-<div style="font-size:26px;font-weight:800;color:#FFFFFF;margin-bottom:12px;">${plan.programTitle}</div>
-<div style="font-size:14px;color:#9BA8BF;line-height:1.7;">${plan.summary}</div>
-</td></tr>
-<tr><td style="background:#0F1628;padding:28px 32px;border-bottom:1px solid rgba(255,255,255,0.08);">
-<div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:3px;color:#0057FF;margin-bottom:12px;">📋 Weekly Structure</div>
-<div style="font-size:14px;color:#9BA8BF;line-height:1.8;">${plan.weeklyOverview}</div>
-</td></tr>
-<tr><td style="background:#111827;padding:28px 32px;border-bottom:1px solid rgba(255,255,255,0.08);">
-<div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:3px;color:#0057FF;margin-bottom:16px;">📅 7-Day Training Schedule</div>
-<table width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #1A2540;border-radius:12px;overflow:hidden;">${dayRows}</table>
-</td></tr>
-${nutrition ? `
-<tr><td style="background:#0F1628;padding:28px 32px;border-bottom:1px solid rgba(255,255,255,0.08);">
-<div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:3px;color:#0057FF;margin-bottom:12px;">🍽️ Nutrition Plan</div>
-<div style="font-size:14px;color:#9BA8BF;line-height:1.8;margin-bottom:20px;">${nutrition.diet}</div>
-<div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:3px;color:#4CAF82;margin-bottom:16px;">🥗 Daily Meals</div>
-<table width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #1A2540;border-radius:12px;overflow:hidden;">${mealRows}</table>
-</td></tr>
-<tr><td style="background:#111827;padding:28px 32px;border-bottom:1px solid rgba(255,255,255,0.08);">
-<div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:3px;color:#0057FF;margin-bottom:12px;">💊 Supplements</div>
-<div style="font-size:14px;color:#9BA8BF;line-height:1.8;margin-bottom:20px;">${nutrition.supplements}</div>
-<div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:3px;color:#0057FF;margin-bottom:12px;">😴 Recovery</div>
-<div style="font-size:14px;color:#9BA8BF;line-height:1.8;">${nutrition.recovery}</div>
-</td></tr>` : ''}
-<tr><td style="background:#0F1628;padding:32px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.08);">
-<div style="font-size:18px;font-weight:800;color:#FFFFFF;margin-bottom:8px;">🤖 Want daily coaching?</div>
-<div style="font-size:14px;color:#9BA8BF;line-height:1.6;margin-bottom:20px;">Upgrade to Daily Coach for real-time AI coaching, daily meal plans, and weekly check-ins.</div>
-<a href="https://dailyathlete.app/dashboard.html" style="display:inline-block;background:#0057FF;color:#FFFFFF;font-size:14px;font-weight:700;padding:14px 32px;border-radius:12px;text-decoration:none;">Try Daily Coach Free →</a>
-</td></tr>
-<tr><td style="background:#0A0F1E;padding:24px 32px;text-align:center;border-radius:0 0 16px 16px;">
-<div style="font-size:12px;color:#6B7A99;">© 2026 DailyAthlete · <a href="https://dailyathlete.app/privacy-policy.html" style="color:#6B7A99;">Privacy</a> · <a href="https://dailyathlete.app/contact.html" style="color:#6B7A99;">Contact</a></div>
-</td></tr>
-</table></td></tr></table></body></html>`;
+</table>
+</body>
+</html>`;
 }
 
-// ─── Send Program Email ───────────────────────────────────────────────────────
 app.post('/api/send-email', async (req, res) => {
   try {
     const { email, plan, nutrition } = req.body;
