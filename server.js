@@ -7,7 +7,7 @@ app.use(express.json());
 app.get('/ping', (req, res) => res.send('ok'));
 
 // ─── Email HTML Builder ───────────────────────────────────────────────────────
-function buildEmailHTML(plan, nutrition) {
+function buildEmailHTML(plan, nutrition, email) {
   const days = plan.days || [];
   const meals = nutrition?.dailyMeals || [];
 
@@ -229,7 +229,7 @@ app.post('/api/send-email', async (req, res) => {
   try {
     const { email, plan, nutrition } = req.body;
     if (!email || !plan) return res.status(400).json({ error: 'Missing data' });
-    const html = buildEmailHTML(plan, nutrition);
+    const html = buildEmailHTML(plan, nutrition, email);
     const r = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${process.env.RESEND_API_KEY}` },
