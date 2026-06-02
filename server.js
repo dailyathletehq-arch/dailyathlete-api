@@ -11,107 +11,212 @@ function buildEmailHTML(plan, nutrition) {
   const days = plan.days || [];
   const meals = nutrition?.dailyMeals || [];
 
-  const dayRows = days.map(d => `
+  const dayRows = days.map((d, i) => `
     <tr>
-      <td style="padding:14px 18px;border-bottom:1px solid #1A2540;vertical-align:top;width:110px;background:#0F1628;">
-        <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:#0057FF;margin-bottom:4px;">${d.day}</div>
-        <div style="font-size:11px;color:#6B7A99;">${d.focus}</div>
+      <td style="padding:0;vertical-align:top;width:130px;">
+        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+          <tr><td style="padding:16px 18px;background:${i%2===0?'#0A1628':'#0D1A30'};border-right:2px solid #0057FF;">
+            <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:3px;color:#0057FF;margin-bottom:5px;">${d.day}</div>
+            <div style="font-size:11px;color:#9BA8BF;line-height:1.4;">${d.focus}</div>
+          </td></tr>
+        </table>
       </td>
-      <td style="padding:14px 18px;border-bottom:1px solid #1A2540;font-size:13px;color:#9BA8BF;line-height:1.75;background:#111827;">${d.details}</td>
+      <td style="padding:16px 18px;background:${i%2===0?'#0F1628':'#111827'};font-size:13px;color:#9BA8BF;line-height:1.8;border-bottom:1px solid #1E2D45;">${d.details}</td>
     </tr>`).join('');
 
-  const mealRows = meals.map(d => `
+  const mealRows = meals.map((d, i) => `
     <tr>
-      <td style="padding:14px 18px;border-bottom:1px solid #1A2540;vertical-align:top;width:110px;background:#0F1628;">
-        <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:#4CAF82;margin-bottom:4px;">${d.day}</div>
-        <div style="font-size:11px;color:#6B7A99;">${d.calories||''} cal</div>
+      <td style="padding:0;vertical-align:top;width:130px;">
+        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+          <tr><td style="padding:16px 18px;background:${i%2===0?'#0A1E16':'#0D2019'};border-right:2px solid #4CAF82;">
+            <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:3px;color:#4CAF82;margin-bottom:5px;">${d.day}</div>
+            <div style="font-size:11px;color:#9BA8BF;">${d.calories||''} cal</div>
+          </td></tr>
+        </table>
       </td>
-      <td style="padding:14px 18px;border-bottom:1px solid #1A2540;font-size:13px;color:#9BA8BF;line-height:1.75;background:#111827;">${d.meals}</td>
+      <td style="padding:16px 18px;background:${i%2===0?'#0F1628':'#111827'};font-size:13px;color:#9BA8BF;line-height:1.8;border-bottom:1px solid #1E2D45;">${d.meals}</td>
     </tr>`).join('');
 
   return `<!DOCTYPE html>
 <html lang="en">
-<head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<meta name="color-scheme" content="dark"/>
 <title>Your DailyAthlete Program</title>
 </head>
-<body style="margin:0;padding:0;background:#0A0F1E;font-family:Arial,Helvetica,sans-serif;-webkit-font-smoothing:antialiased;">
-<table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#0A0F1E;padding:40px 16px;">
+<body style="margin:0;padding:0;background:#060B18;font-family:Georgia,'Times New Roman',serif;-webkit-font-smoothing:antialiased;">
+
+<!-- OUTER WRAPPER -->
+<table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#060B18;padding:48px 16px;">
 <tr><td align="center">
-<table width="600" cellpadding="0" cellspacing="0" border="0" style="max-width:600px;width:100%;border-radius:16px;overflow:hidden;border:1px solid #1A2540;">
+<table width="620" cellpadding="0" cellspacing="0" border="0" style="max-width:620px;width:100%;">
+
+  <!-- TOP ACCENT LINE -->
+  <tr><td style="background:linear-gradient(90deg,#003DB8,#0057FF,#3380FF,#0057FF,#003DB8);height:3px;border-radius:3px 3px 0 0;"></td></tr>
 
   <!-- HEADER -->
-  <tr><td style="background:#0F1628;padding:28px 32px;text-align:center;border-bottom:1px solid #1A2540;">
-    <table cellpadding="0" cellspacing="0" border="0" align="center">
+  <tr><td style="background:#0A0F1E;padding:36px 40px 28px;text-align:center;border-left:1px solid #1E2D45;border-right:1px solid #1E2D45;">
+    <table cellpadding="0" cellspacing="0" border="0" align="center" style="margin-bottom:20px;">
       <tr>
-        <td style="background:#0057FF;border-radius:10px;width:40px;height:40px;text-align:center;vertical-align:middle;">
-          <span style="color:#FFFFFF;font-size:20px;font-weight:800;line-height:40px;">D</span>
+        <td style="background:#0057FF;border-radius:12px;width:48px;height:48px;text-align:center;vertical-align:middle;">
+          <span style="color:#FFFFFF;font-size:24px;font-weight:900;font-family:Arial,sans-serif;line-height:48px;">D</span>
         </td>
-        <td style="padding-left:12px;vertical-align:middle;">
-          <span style="font-size:22px;font-weight:800;color:#FFFFFF;letter-spacing:-0.5px;">Daily</span><span style="font-size:22px;font-weight:800;color:#0057FF;letter-spacing:-0.5px;">Athlete</span>
+        <td style="padding-left:14px;vertical-align:middle;">
+          <span style="font-size:26px;font-weight:900;color:#FFFFFF;font-family:Arial,Helvetica,sans-serif;letter-spacing:-1px;">Daily</span><span style="font-size:26px;font-weight:900;color:#0057FF;font-family:Arial,Helvetica,sans-serif;letter-spacing:-1px;">Athlete</span>
         </td>
       </tr>
     </table>
-    <div style="margin-top:8px;font-size:11px;color:#6B7A99;letter-spacing:3px;text-transform:uppercase;">AI-Powered Performance Coach</div>
+    <div style="font-size:10px;color:#3A5080;letter-spacing:5px;text-transform:uppercase;font-family:Arial,sans-serif;">AI · POWERED · PERFORMANCE · COACH</div>
   </td></tr>
 
-  <!-- PROGRAM TITLE BANNER -->
-  <tr><td style="background:linear-gradient(135deg,#003DB8,#0057FF);padding:32px;text-align:center;border-bottom:1px solid #1A2540;">
-    <div style="display:inline-block;background:rgba(255,255,255,0.15);color:#FFFFFF;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;padding:5px 16px;border-radius:50px;margin-bottom:14px;">✦ Your Personalized Program</div>
-    <div style="font-size:26px;font-weight:800;color:#FFFFFF;letter-spacing:-0.5px;margin-bottom:12px;line-height:1.2;">${plan.programTitle}</div>
-    <div style="font-size:14px;color:rgba(255,255,255,0.75);line-height:1.75;max-width:480px;margin:0 auto;">${plan.summary}</div>
+  <!-- HERO BANNER -->
+  <tr><td style="padding:0;border-left:1px solid #1E2D45;border-right:1px solid #1E2D45;">
+    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td style="background:#0057FF;padding:6px 40px;text-align:center;">
+          <span style="font-size:9px;font-weight:700;color:rgba(255,255,255,0.8);letter-spacing:4px;text-transform:uppercase;font-family:Arial,sans-serif;">✦ &nbsp; YOUR PERSONALIZED PROGRAM &nbsp; ✦</span>
+        </td>
+      </tr>
+      <tr>
+        <td style="background:#003DB8;padding:36px 40px;text-align:center;">
+          <div style="font-size:30px;font-weight:900;color:#FFFFFF;letter-spacing:-1px;line-height:1.15;margin-bottom:16px;font-family:Arial,Helvetica,sans-serif;">${plan.programTitle}</div>
+          <div style="width:48px;height:2px;background:#0057FF;margin:0 auto 20px;"></div>
+          <div style="font-size:15px;color:rgba(255,255,255,0.75);line-height:1.8;max-width:460px;margin:0 auto;font-family:Arial,sans-serif;">${plan.summary}</div>
+        </td>
+      </tr>
+    </table>
   </td></tr>
 
   <!-- WEEKLY OVERVIEW -->
-  <tr><td style="background:#0F1628;padding:28px 32px;border-bottom:1px solid #1A2540;">
-    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:3px;color:#0057FF;margin-bottom:14px;">📋 &nbsp;Weekly Structure & Progression</div>
-    <div style="font-size:14px;color:#9BA8BF;line-height:1.85;">${plan.weeklyOverview}</div>
+  <tr><td style="background:#0D1321;padding:32px 40px;border-left:1px solid #1E2D45;border-right:1px solid #1E2D45;border-top:1px solid #1E2D45;">
+    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td style="padding-bottom:16px;">
+          <table cellpadding="0" cellspacing="0" border="0">
+            <tr>
+              <td style="background:#0057FF;width:3px;border-radius:3px;">&nbsp;</td>
+              <td style="padding-left:12px;">
+                <span style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:3px;color:#0057FF;font-family:Arial,sans-serif;">Weekly Structure &amp; Progression</span>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      <tr><td style="font-size:14px;color:#9BA8BF;line-height:1.9;font-family:Arial,sans-serif;">${plan.weeklyOverview}</td></tr>
+    </table>
   </td></tr>
 
-  <!-- TRAINING SCHEDULE -->
-  <tr><td style="background:#111827;padding:28px 32px;border-bottom:1px solid #1A2540;">
-    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:3px;color:#0057FF;margin-bottom:16px;">📅 &nbsp;7-Day Training Schedule</div>
-    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="border:1px solid #1A2540;border-radius:12px;overflow:hidden;">
+  <!-- SCHEDULE HEADER -->
+  <tr><td style="background:#0A1628;padding:20px 40px 0;border-left:1px solid #1E2D45;border-right:1px solid #1E2D45;">
+    <table cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td style="background:#0057FF;width:3px;border-radius:3px;">&nbsp;</td>
+        <td style="padding-left:12px;">
+          <span style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:3px;color:#0057FF;font-family:Arial,sans-serif;">7-Day Training Schedule</span>
+        </td>
+      </tr>
+    </table>
+  </td></tr>
+
+  <!-- SCHEDULE TABLE -->
+  <tr><td style="padding:16px 40px 32px;background:#0A1628;border-left:1px solid #1E2D45;border-right:1px solid #1E2D45;">
+    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="border:1px solid #1E2D45;border-radius:10px;overflow:hidden;">
       ${dayRows}
     </table>
   </td></tr>
 
   ${nutrition ? `
-  <!-- NUTRITION -->
-  <tr><td style="background:#0F1628;padding:28px 32px;border-bottom:1px solid #1A2540;">
-    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:3px;color:#0057FF;margin-bottom:14px;">🍽️ &nbsp;Nutrition Plan & Targets</div>
-    <div style="font-size:14px;color:#9BA8BF;line-height:1.85;margin-bottom:24px;">${nutrition.diet}</div>
-    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:3px;color:#4CAF82;margin-bottom:16px;">🥗 &nbsp;Daily Meals</div>
-    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="border:1px solid #1A2540;border-radius:12px;overflow:hidden;">
+  <!-- NUTRITION HEADER -->
+  <tr><td style="background:#0D1321;padding:28px 40px 0;border-left:1px solid #1E2D45;border-right:1px solid #1E2D45;border-top:1px solid #1E2D45;">
+    <table cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td style="background:#4CAF82;width:3px;border-radius:3px;">&nbsp;</td>
+        <td style="padding-left:12px;">
+          <span style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:3px;color:#4CAF82;font-family:Arial,sans-serif;">Nutrition Plan &amp; Daily Targets</span>
+        </td>
+      </tr>
+    </table>
+  </td></tr>
+  <tr><td style="background:#0D1321;padding:16px 40px 28px;border-left:1px solid #1E2D45;border-right:1px solid #1E2D45;">
+    <div style="font-size:14px;color:#9BA8BF;line-height:1.9;font-family:Arial,sans-serif;">${nutrition.diet}</div>
+  </td></tr>
+
+  <!-- MEALS HEADER -->
+  <tr><td style="background:#0A1628;padding:20px 40px 0;border-left:1px solid #1E2D45;border-right:1px solid #1E2D45;">
+    <table cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td style="background:#4CAF82;width:3px;border-radius:3px;">&nbsp;</td>
+        <td style="padding-left:12px;">
+          <span style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:3px;color:#4CAF82;font-family:Arial,sans-serif;">Daily Meal Plans</span>
+        </td>
+      </tr>
+    </table>
+  </td></tr>
+  <tr><td style="padding:16px 40px 32px;background:#0A1628;border-left:1px solid #1E2D45;border-right:1px solid #1E2D45;">
+    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="border:1px solid #1E2D45;border-radius:10px;overflow:hidden;">
       ${mealRows}
     </table>
   </td></tr>
-  <tr><td style="background:#111827;padding:28px 32px;border-bottom:1px solid #1A2540;">
-    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:3px;color:#0057FF;margin-bottom:14px;">💊 &nbsp;Supplement Stack</div>
-    <div style="font-size:14px;color:#9BA8BF;line-height:1.85;margin-bottom:24px;">${nutrition.supplements}</div>
-    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:3px;color:#0057FF;margin-bottom:14px;">😴 &nbsp;Recovery Protocol</div>
-    <div style="font-size:14px;color:#9BA8BF;line-height:1.85;">${nutrition.recovery}</div>
-  </td></tr>` : ''}
 
-  <!-- UPGRADE CTA -->
-  <tr><td style="background:linear-gradient(135deg,#0A1A3E,#0F1628);padding:36px 32px;text-align:center;border-bottom:1px solid #1A2540;">
-    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:3px;color:#0057FF;margin-bottom:12px;">🤖 &nbsp;Daily Coach</div>
-    <div style="font-size:20px;font-weight:800;color:#FFFFFF;margin-bottom:10px;letter-spacing:-0.5px;">Want your coach to adapt this plan daily?</div>
-    <div style="font-size:14px;color:#9BA8BF;line-height:1.7;margin-bottom:24px;max-width:420px;margin-left:auto;margin-right:auto;">Get a real-time AI coach that adjusts your workouts, meals, and recovery every single day — based on how you're actually feeling and performing.</div>
-    <a href="https://dailyathlete.app/dashboard.html?email=${encodeURIComponent(email)}" style="display:inline-block;background:#0057FF;color:#FFFFFF;font-size:14px;font-weight:700;padding:15px 36px;border-radius:12px;text-decoration:none;letter-spacing:0.3px;">Try Daily Coach Free →</a>
+  <!-- SUPPLEMENTS -->
+  <tr><td style="background:#0D1321;padding:28px 40px;border-left:1px solid #1E2D45;border-right:1px solid #1E2D45;border-top:1px solid #1E2D45;">
+    <table cellpadding="0" cellspacing="0" border="0" style="margin-bottom:16px;">
+      <tr>
+        <td style="background:#E0B84A;width:3px;border-radius:3px;">&nbsp;</td>
+        <td style="padding-left:12px;">
+          <span style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:3px;color:#E0B84A;font-family:Arial,sans-serif;">Supplement Stack</span>
+        </td>
+      </tr>
+    </table>
+    <div style="font-size:14px;color:#9BA8BF;line-height:1.9;font-family:Arial,sans-serif;">${nutrition.supplements}</div>
+  </td></tr>
+
+  <!-- RECOVERY -->
+  <tr><td style="background:#0A1628;padding:28px 40px;border-left:1px solid #1E2D45;border-right:1px solid #1E2D45;border-top:1px solid #1E2D45;">
+    <table cellpadding="0" cellspacing="0" border="0" style="margin-bottom:16px;">
+      <tr>
+        <td style="background:#60A0FF;width:3px;border-radius:3px;">&nbsp;</td>
+        <td style="padding-left:12px;">
+          <span style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:3px;color:#60A0FF;font-family:Arial,sans-serif;">Recovery Protocol</span>
+        </td>
+      </tr>
+    </table>
+    <div style="font-size:14px;color:#9BA8BF;line-height:1.9;font-family:Arial,sans-serif;">${nutrition.recovery}</div>
+  </td></tr>
+  ` : ''}
+
+  <!-- CTA SECTION -->
+  <tr><td style="background:#060B18;padding:48px 40px;text-align:center;border-left:1px solid #1E2D45;border-right:1px solid #1E2D45;border-top:1px solid #1E2D45;">
+    <div style="font-size:10px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:#0057FF;font-family:Arial,sans-serif;margin-bottom:16px;">🤖 &nbsp; DAILY COACH</div>
+    <div style="font-size:24px;font-weight:900;color:#FFFFFF;font-family:Arial,Helvetica,sans-serif;letter-spacing:-0.5px;margin-bottom:12px;line-height:1.2;">Want your coach to adapt<br/>this plan every day?</div>
+    <div style="width:40px;height:2px;background:#0057FF;margin:0 auto 20px;"></div>
+    <div style="font-size:14px;color:#6B7A99;line-height:1.8;max-width:400px;margin:0 auto 28px;font-family:Arial,sans-serif;">Get a real-time AI coach that adjusts your workouts, meals, and recovery daily — based on how you're actually feeling and performing.</div>
+    <table cellpadding="0" cellspacing="0" border="0" align="center" style="margin-bottom:20px;">
+      <tr>
+        <td style="background:#0057FF;border-radius:12px;padding:16px 40px;">
+          <a href="https://dailyathlete.app/dashboard.html?email=${encodeURIComponent(email)}" style="font-size:15px;font-weight:700;color:#FFFFFF;text-decoration:none;letter-spacing:0.3px;font-family:Arial,sans-serif;">Try Daily Coach Free →</a>
+        </td>
+      </tr>
+    </table>
+    <div style="font-size:12px;color:#2A3A55;font-family:Arial,sans-serif;">No credit card required · Cancel anytime</div>
   </td></tr>
 
   <!-- FOOTER -->
-  <tr><td style="background:#0A0F1E;padding:24px 32px;text-align:center;">
-    <div style="font-size:12px;color:#6B7A99;margin-bottom:8px;">
-      <a href="https://dailyathlete.app/privacy-policy.html" style="color:#6B7A99;text-decoration:none;">Privacy Policy</a>
-      &nbsp;·&nbsp;
-      <a href="https://dailyathlete.app/terms-and-conditions.html" style="color:#6B7A99;text-decoration:none;">Terms</a>
-      &nbsp;·&nbsp;
-      <a href="https://dailyathlete.app/contact.html" style="color:#6B7A99;text-decoration:none;">Contact</a>
+  <tr><td style="background:#040810;padding:28px 40px;text-align:center;border-left:1px solid #1A2540;border-right:1px solid #1A2540;border-top:1px solid #1A2540;">
+    <div style="font-size:11px;color:#2A3A55;margin-bottom:10px;font-family:Arial,sans-serif;">
+      <a href="https://dailyathlete.app/privacy-policy.html" style="color:#3A5080;text-decoration:none;">Privacy Policy</a>
+      &nbsp;&nbsp;·&nbsp;&nbsp;
+      <a href="https://dailyathlete.app/terms-and-conditions.html" style="color:#3A5080;text-decoration:none;">Terms</a>
+      &nbsp;&nbsp;·&nbsp;&nbsp;
+      <a href="https://dailyathlete.app/contact.html" style="color:#3A5080;text-decoration:none;">Contact</a>
     </div>
-    <div style="font-size:12px;color:#3A4A6A;">© 2026 DailyAthlete. All rights reserved.</div>
-    <div style="font-size:11px;color:#2A3A5A;margin-top:8px;line-height:1.6;">DailyAthlete provides general fitness and nutrition information for educational purposes only. Always consult your physician before starting any exercise or nutrition program.</div>
+    <div style="font-size:11px;color:#1E2D45;font-family:Arial,sans-serif;">© 2026 DailyAthlete. All rights reserved.</div>
+    <div style="font-size:10px;color:#141E2E;margin-top:8px;line-height:1.6;font-family:Arial,sans-serif;">DailyAthlete provides general fitness and nutrition information for educational purposes only.<br/>Always consult your physician before starting any exercise or nutrition program.</div>
   </td></tr>
+
+  <!-- BOTTOM ACCENT LINE -->
+  <tr><td style="background:linear-gradient(90deg,#003DB8,#0057FF,#3380FF,#0057FF,#003DB8);height:3px;border-radius:0 0 3px 3px;"></td></tr>
 
 </table>
 </td></tr>
