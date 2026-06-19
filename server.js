@@ -316,7 +316,7 @@ app.post('/api/claude', async (req, res) => {
       nutrition: `You are an elite registered dietitian. Give specific nutrition plans. Food allergies and medications are absolute hard rules. Only clean supplements: no heavy metals, no sucralose, no artificial sweeteners. CRITICAL: Respond with ONLY valid complete JSON using EXACTLY the field names specified in the prompt — diet, dailyMeals, supplements, recovery. No other field names. No markdown. No backticks.`,
       coach: `You are an elite AI sports performance coach. Respond in plain text — warm, direct, specific, immediately actionable. 2-4 sentences max.`
     };
-    const maxTokens = { training: 4000, nutrition: 4000, coach: 500 };
+    const maxTokens = { training: 4000, nutrition: 4500, coach: 500 };
     const r = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'x-api-key': process.env.ANTHROPIC_API_KEY, 'anthropic-version': '2023-06-01' },
